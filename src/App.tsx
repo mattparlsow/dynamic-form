@@ -1,26 +1,81 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { SxProps, Theme } from '@mui/material'
+import React, { useState } from 'react'
+import Form from './components/formik'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type fieldsT = {
+  fieldType: 'switch' | 'text' | 'date' | 'autocomplete'
+  fieldProps: {
+    name: string
+    label?: string
+    onChange: Function
+    required?: boolean
+    options?: Array<{ label: string; value: any }>
+  }
 }
 
-export default App;
+function App() {
+  const [formValues, setFormValue] = useState<
+    Array<{ name: string; value: any }>
+  >([])
+
+  const fieldOnChange = (value: string | number | object, name: string) => {
+    setFormValue([
+      ...formValues.filter((field) => field.name !== name),
+      { name: name, value: value },
+    ])
+  }
+
+  const onSubmit = (values: any) => {
+    console.log(values)
+  }
+
+  const fields: Array<fieldsT> = [
+    {
+      fieldType: 'text',
+      fieldProps: {
+        name: 'text',
+        label: 'Text field',
+        onChange: fieldOnChange,
+      },
+    },
+    {
+      fieldType: 'date',
+      fieldProps: {
+        name: 'date',
+        onChange: fieldOnChange,
+        required: true,
+      },
+    },
+    {
+      fieldType: 'autocomplete',
+      fieldProps: {
+        name: 'autocomplete',
+        options: [
+          { label: 'Option 1', value: 1 },
+          { label: 'Option 2', value: 2 },
+          { label: 'Option 3', value: 3 },
+        ],
+        onChange: fieldOnChange,
+        label: 'Autocomplete',
+        required: true,
+      },
+    },
+    {
+      fieldType: 'switch',
+      fieldProps: {
+        name: 'switch',
+        label: 'Switch',
+        onChange: fieldOnChange,
+      },
+    },
+  ]
+
+  return (
+    <div className='App'>
+      <h1>Dynamic Formik </h1>
+      <Form origin={'home'} fields={fields} onSubmit={onSubmit} />
+    </div>
+  )
+}
+
+export default App
