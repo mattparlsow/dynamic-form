@@ -5,5 +5,5 @@ Theming available through Material UI.
 
 ### `npm start`
 
-Before running the project ensure you install the dependencies via 'npm install'
+Before running the project ensure you install the dependencies via 'npm install'.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
